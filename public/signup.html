@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function showPrev(fileRef,prevRef)
+         {
+                         const [file] = fileRef.files
+                            if (file) {
+                                prevRef.src = URL.createObjectURL(file)
+                            }
+        }
+
+        
+
+    </script>
+    <script>
+       $(document).ready(function(){
+    $("#btnFetchWithAJAX").click(function(){
+        let obj = {
+            type: "get",
+            url: "/get-one",
+            data: {
+                txtEmail: $("#txtEmail").val()
+            }
+        };
+
+        $.ajax(obj).then(
+            function(responseJsonAry){
+                if(responseJsonAry.length > 0) {
+                    let mobile = responseJsonAry[0].mobile;
+                    let pwd = responseJsonAry[0].pwd;
+                    let picurl = responseJsonAry[0].picurl;
+
+                    // fill data into form inputs
+                    $("#txtMobile").val(mobile);
+                    $("input[name='txtPwd']").val(pwd);
+                    $("#prev").attr("src", picurl);
+                } else  if (allRecords.length == 0)
+                {
+
+                     
+
+                    alert("No record found");
+                }
+            },
+            function(err){
+                alert(err.message);
+            }
+        );
+    });
+});
+
+    </script>
+</head>
+<body>
+    <center>
+
+         <form action="/server-signup-safe" method="post" enctype="multipart/form-data" >
+            <p>
+                <h2>Signup Form Safe-POST</h2>
+            </p>
+            <p>
+                Email ID <input type="text" name="txtEmail" id="txtEmail" value="bcebti@gmail.com"> 
+                <!-- Using AJAX -->
+                <input type="button" value="Search" id="btnFetchWithAJAX">
+            </p>
+            <p>
+                Password <input type="password" name="txtPwd" id="txtPwd">
+            </p>
+            <p>
+                Mobile <input type="text" name="txtMobile" id="txtMobile" >
+            </p>
+            <p>
+                Upload Profile Pic <br>
+                <input type="file" name="profilePic" id="profilePic" onchange="showPrev(profilePic,prev)"> <br>
+                
+                <img src="pics/customer.jpg" width="100" height="100" id="prev" alt="">
+            </p>
+            <p>
+                <center>
+                    <input type="submit" value="Signup Now/Send To Server">
+                    <input type="submit" value="Delete" formaction="/delete-user">
+
+                    <input type="submit" value="Update" formaction="/update-user">
+                    <input type="submit" value="Show ALL Records" formaction="/show-all">
+
+                </center>
+            </p>
+            
+        </form>
+        <hr>
+        <hr>
+        <form action="/server-signup">
+            <p>
+                <h2>Signup Form</h2>
+            </p>
+            <p>
+                Email ID <input type="text" name="txtEmail" value="bcebti@gmail.com">
+            </p>
+            <p>
+                Password <input type="password" name="txtPwd" value="Admin123%6464">
+            </p>
+            <p>
+                Mobile <input type="text" name="txtMobile" value="9872246056">
+            </p>
+             <p>
+                Ur Tech Skills: <br>
+                <input type="checkbox" name="chkWeb" value="Full Stack">Web Development
+                <input type="checkbox" name="chkDsa" value="Data Structures">DSA
+
+            </p>
+            <p>
+                Occupation: <br>
+                <input type="radio" value="Business" name="radOccu">Busy Ness
+                <input type="radio" value="Naukri" name="radOccu">Job
+
+            </p>
+            <p>
+                Date of Birth: <input type="date" name="dob">
+            </p>
+            <p>
+                City
+                <select name="city">
+                    <option value="none">Select</option>
+                    <option value="City of Lakes">Bathinda</option>
+                    <option value="Party">Chandigarh</option>
+                    <option value="Pink City">Jaipur</option>
+                </select>
+            </p>
+             <p>
+                Cities Visited:
+                <select name="visited" multiple>
+                    <option value="none">Select</option>
+                    <option value="City of Lakes">Bathinda</option>
+                    <option value="Party">Chandigarh</option>
+                    <option value="Pink City">Jaipur</option>
+                </select>
+            </p>
+            <p>
+                <center>
+                    <input type="submit" value="Signup Now/Send To Server">
+                </center>
+            </p>
+            
+        </form>
+        <hr><hr>
+        
+    </center>
+    
+</body>
+</html>

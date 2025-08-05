@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organizer Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .dashboard-container {
+      margin-top: 90px;
+    }
+    .card-img-top {
+      height: 200px;
+      object-fit: contain;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      transition: 0.3s ease;
+    }
+    .navbar {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .btn-logout {
+      background-color: #0d6efd;
+      color: white;
+    }
+    .btn-logout:hover {
+      background-color: #0b5ed7;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top px-4">
+  <div class="container-fluid">
+    <span class="navbar-brand fw-bold text-white">Welcome Admin</span>
+    <div class="ms-auto">
+      <a href="index.html" class="btn btn-logout">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container dashboard-container">
+  <h2 class="text-center mb-4">Admin Dashboard</h2>
+  <div class="row g-4">
+
+    <!-- Users Details Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/group2.jpg" class="card-img-top" alt="Organization Details">
+        <div class="card-body text-center">
+          <h5 class="card-title">Users Console</h5>
+          <a href="admin-users-console.html" class="btn btn-danger">Go to Details</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organizer Panel Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/orga.jpg" class="card-img-top" alt="Post Tournaments">
+        <div class="card-body text-center">
+          <h5 class="card-title">Organizer Panel</h5>
+          <a href="admin_organizer.html" class="btn btn-success">Organizer Credentials</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player Panel Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/allplayers.png" class="card-img-top" alt="Manage Tournaments">
+        <div class="card-body text-center">
+          <h5 class="card-title">Player Panel</h5>
+          <a href="admin_player.html" class="btn btn-primary">Player Credentials</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

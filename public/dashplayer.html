@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="settingsController">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Player Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .dashboard-container {
+      margin-top: 50px;
+    }
+.card-img-top {
+    height: 180px;
+    width: 100%;
+    object-fit: contain;
+    padding: 10px;
+  }
+
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+  }
+
+  .card-body {
+    text-align: center;
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+
+
+    .card-icon {
+      font-size: 50px;
+      color: #dc3545;
+      margin-bottom: 10px;
+    }
+
+    .logo-img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      /* ensures image fills the circle nicely */
+      border: 2px solid white;
+      /* optional: white border for clarity on dark bg */
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    function showUser() {
+      let activeUser = localStorage.getItem("activeUser");
+      document.getElementById("welcome").innerHTML = activeUser;
+      document.getElementById("emailInput").innerHTML = activeUser;
+    }
+  </script>
+
+  <body onload="showUser();">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Left side: logo -->
+        <a class="navbar-brand" href="#">
+          <img src="pics/trophy2.jpg" alt="Logo" class="logo-img"> <!-- Replace with your logo path -->
+        </a>
+
+        <!-- Right side: welcome text -->
+        <div class="d-flex ms-auto text-white">
+          <div class="text-white me-3">Welcome:<span id="welcome">*</span></div>
+          <!--* gonna replaced by email id-->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container dashboard-container">
+      <h2 class="text-center mb-4">Player Dashboard</h2>
+      <div class="row g-4 justify-content-center">
+
+        <!-- Profile Card -->
+        <div class="col-md-3 d-flex">
+          <div class="card shadow w-100">
+            <img src="pics/profile.jpg" class="card-img-top" alt="Profile Image">
+            <div class="card-body text-center">
+              <i class="fas fa-user-circle card-icon"></i>
+              <h5 class="card-title">Profile</h5>
+              <a href="profile-player.html" class="btn btn-danger">View Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explore Events Card -->
+        <div class="col-md-3">
+          <div class="card shadow h-100">
+            <img src="pics/explore events.png" class="card-img-top" alt="Events Image">
+            <div class="card-body text-center">
+              <i class="fas fa-calendar-alt card-icon"></i>
+              <h5 class="card-title">Explore Events</h5>
+              <a href="findtournament.html" class="btn btn-danger">View Events</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Card -->
+        <div class="col-md-3">
+          <div class="card shadow h-100">
+            <img src="pics/settings.svg" class="card-img-top" alt="Settings Image">
+            <div class="card-body text-center">
+              <i class="fas fa-cog card-icon"></i>
+              <h5 class="card-title">Settings</h5>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#settingsModal"
+                ng-click="showUser();">Open Settings</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Card -->
+        <div class="col-md-3">
+          <div class="card shadow h-100">
+            <img src="pics/log1.jpg" class="card-img-top" alt="Logout Image">
+            <div class="card-body text-center">
+              <i class="fas fa-sign-out-alt card-icon"></i>
+              <h5 class="card-title">Logout</h5>
+              <a href="index.html" class="btn btn-danger">Log Out</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= Modal for Update Password ================= -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" ng-cloak>
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Update Password</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form ng-submit="updatePassword()">
+              <div class="mb-3">
+                <label>Email</label>
+                <input type="email" id="emailInput" class="form-control" ng-model="user.email" required>
+              </div>
+              <div class="mb-3">
+                <label>Old Password</label>
+                <input type="password" class="form-control" ng-model="user.oldPassword" required>
+              </div>
+              <div class="mb-3">
+                <label>New Password</label>
+                <input type="password" class="form-control" name="newPassword" ng-model="user.newPassword" required>
+
+                <div class="mt-1">
+                  <small ng-if="user.newPassword" ng-class="{
+             'text-danger': getPasswordStrength(user.newPassword) === 'Weak',
+             'text-warning': getPasswordStrength(user.newPassword) === 'Medium',
+             'text-success': getPasswordStrength(user.newPassword) === 'Strong'
+           }">
+                    Password Strength: {{ getPasswordStrength(user.newPassword) }}
+                  </small>
+                </div>
+              </div>
+
+              <div class="text-end">
+                <button type="submit" class="btn btn-danger">Update Password</button>
+              </div>
+            </form>
+            <p class="text-success mt-2" ng-if="message">{{message}}</p>
+            <p class="text-danger mt-2" ng-if="error">{{error}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= AngularJS & Bootstrap JS ================= -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const app = angular.module("myApp", []);
+      app.controller("settingsController", function ($scope, $http) {
+        $scope.user = {};
+        $scope.message = "";
+        $scope.error = "";
+        //  Load email from localStorage into Angular model
+        const activeUser = localStorage.getItem("activeUser");
+        if (activeUser) {
+          $scope.user.email = activeUser;
+        }
+        $scope.getPasswordStrength = function (password) {
+          if (!password) return "";
+
+          const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$");
+          const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*\\d))|((?=.*[A-Z])(?=.*\\d))).{6,}$");
+
+          if (strongRegex.test(password)) return "Strong";
+          if (mediumRegex.test(password)) return "Medium";
+          return "Weak";
+        };
+
+        $scope.updatePassword = function () {
+          const data = {
+            email: $scope.user.email,
+            oldPassword: $scope.user.oldPassword,
+            newPassword: $scope.user.newPassword
+          };
+
+
+
+          $http.post("/update-password", data).then(function (res) {
+            if (res.data.success) {
+              $scope.message = "Password updated successfully!";
+              $scope.error = "";
+              $scope.user = {}; // Clear form
+            } else {
+              $scope.error = res.data.message;
+              $scope.message = "";
+            }
+          }, function () {
+            $scope.error = "Error updating password.";
+            $scope.message = "";
+          });
+        };
+      });
+    </script>
+
+
+
+  </body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Organizer Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+  <script>
+    var app = angular.module("organizerModule", []);
+
+    app.controller("organizerController", function ($scope, $http) {
+      $scope.emailToSearch = "";
+      $scope.organizersArray = [];
+
+      // Fetch Organizer Details
+      $scope.fetchByEmail = function () {
+        if (!$scope.emailToSearch) {
+          alert("Please enter an Email ID first.");
+          return;
+        }
+
+        var url = "/fetch-organizer-by-email?emailidKuch=" + $scope.emailToSearch;
+        $http.get(url).then(successFx, errorFx);
+
+        function successFx(response) {
+          $scope.organizersArray = response.data;
+        }
+
+        function errorFx(response) {
+          alert("Error: " + JSON.stringify(response.data));
+        }
+      };
+
+      // Delete Organizer Record
+      $scope.deleteOrganizer = function (emailid) {
+        if (!confirm("Are you sure you want to delete this organizer?")) return;
+
+        var url = "/delete-organizer?emailidKuch=" + emailid;
+        $http.get(url).then(
+          function (response) {
+            alert(response.data);
+            $scope.fetchByEmail();
+          },
+          function (response) {
+            alert("Error: " + JSON.stringify(response.data));
+          }
+        );
+      };
+    });
+  </script>
+</head>
+
+<body ng-app="organizerModule" ng-controller="organizerController">
+
+  <div class="container my-4">
+    <h2 class="text-center mb-4">Organizer Manager</h2>
+
+    <div class="input-group mb-4" style="max-width: 400px; margin:auto;">
+      <input type="text" class="form-control" placeholder="Enter Email ID" ng-model="emailToSearch">
+      <button class="btn btn-primary" ng-click="fetchByEmail()">Fetch Details</button>
+    </div>
+
+    <div class="table-responsive" ng-if="organizersArray.length > 0">
+      <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Sr.No</th>
+            <th>Email ID</th>
+            <th>Organizer Name</th>
+            <th>Reg. Number</th>
+            <th>City</th>
+            <th>Contact</th>
+            <th>Head</th>
+            <th>Address</th>
+            <th>Sports</th>
+            <th>Website</th>
+            <th>Instagram</th>
+            <th>Other Info</th>
+            <th>Reg. Certificate</th>
+            <th>Reg Date</th>
+            <th>Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="obj in organizersArray">
+            <td>{{$index + 1}}</td>
+            <td>{{obj.emailid}}</td>
+            <td>{{obj.orgName}}</td>
+            <td>{{obj.regNumber}}</td>
+            <td>{{obj.city}}</td>
+            <td>{{obj.contact}}</td>
+            <td>{{obj.head}}</td>
+            <td>{{obj.address}}</td>
+            <td>{{obj.sports}}</td>
+            <td><a href="{{obj.website}}" target="_blank">View</a></td>
+            <td><a href="{{obj.insta}}" target="_blank">View</a></td>
+            <td>{{obj.otherInfo}}</td>
+            <td><a href="{{obj.picurl}}" target="_blank">View</a></td>
+            <td>{{obj.regdate | date:'dd-MM-yyyy'}}</td>
+
+            <td>
+              <button class="btn btn-danger btn-sm" ng-click="deleteOrganizer(obj.emailid)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-warning text-center mt-4" ng-if="organizersArray.length == 0">
+      No records to display. Enter Email ID and click Fetch.
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournadar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #F0FFFF;
+      font-family: 'Segoe UI', sans-serif;
+      color: #212529;
+    }
+
+    .top-bar {
+      background-color: #1a53a8;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .top-bar .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .top-bar .logo-text {
+      font-size: 20px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .top-bar .nav-buttons button {
+      margin-left: 10px;
+      color: #0d6efd;
+      background-color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .top-bar .nav-buttons .btn {
+      transition: all 0.3s ease;
+    }
+
+    .top-bar .nav-buttons .btn:hover {
+      background-color: #e2e6ea;
+      color: #0d6efd;
+    }
+
+    .top-bar .nav-btn {
+      color: #0d6efd;
+      background-color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .top-bar .nav-btn:hover {
+      background-color: #e2e6ea;
+      color: #0d6efd;
+    }
+
+    .title-section {
+      text-align: center;
+      padding: 25px 10px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .title-section h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #0d6efd;
+    }
+
+    .title-section p {
+      font-style: italic;
+      font-size: 18px;
+      color: #6c757d;
+    }
+
+    /* Slider Section */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide .overlay-text {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #0d6efd;
+      padding: 25px;
+      border-radius: 8px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .overlay-text h5 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .overlay-text p {
+      color: #343a40;
+    }
+
+    /* Services Section */
+    .services {
+      padding: 60px 20px;
+      background-color: #F0FFFF;
+      text-align: center;
+    }
+
+    .services h2 {
+      font-size: 32px;
+      font-weight: bold;
+      color: #212529;
+      margin-bottom: 40px;
+      border: 3px solid #212529;
+      display: inline-block;
+      padding: 5px 25px;
+      background-color: #0d6efd;
+      color: white;
+      border-radius: 8px;
+    }
+
+    .card-custom {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-custom img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      background-color: hsl(188, 100%, 76%);
+      padding: 20px;
+    }
+
+    .card-title {
+      font-weight: bold;
+      color: #212529;
+    }
+
+    .card-text {
+      color: #6c757d;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .eye-btn {
+      background-color: white;
+      border: none;
+      color: #0d6efd;
+      padding: 0 10px;
+    }
+
+    .eye-btn:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+
+
+  <!-- For eye button-->
+
+  <script>
+    $(document).ready(function () {
+      $(document).on("click", ".toggle-password", function () {
+        const inputSelector = $(this).data("target");
+        const input = $(inputSelector);
+        const icon = $(this).find("i");
+
+        if (input.attr("type") === "password") {
+          input.attr("type", "text");
+          icon.removeClass("fa-eye").addClass("fa-eye-slash");
+        } else {
+          input.attr("type", "password");
+          icon.removeClass("fa-eye-slash").addClass("fa-eye");
+        }
+      });
+    });
+
+    function togglePassword() {
+      const passwordInput = document.getElementById("txtLoginPwd");
+      const eyeIcon = document.getElementById("eye-icon");
+
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("bi-eye");
+        eyeIcon.classList.add("bi-eye-slash");
+      } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("bi-eye-slash");
+        eyeIcon.classList.add("bi-eye");
+      }
+    }
+    function togglePasswordSignup() {
+      const pwdField = document.getElementById("txtPwd");
+      const eyeIcon = document.getElementById("signup-eye-icon");
+      const isPassword = pwdField.type == "password";
+      pwdField.type = isPassword ? "text" : "password";
+      eyeIcon.classList.toggle("bi-eye");
+      eyeIcon.classList.toggle("bi-eye-slash");
+    }
+
+    // Get OTP button
+
+
+
+
+
+
+
+  </script>
+
+
+
+</head>
+
+<body>
+
+  <!-- Top Bar with Centered Nav and Right Aligned Buttons -->
+  <!-- FULL-WIDTH TOP BAR WITH STYLED BUTTONS -->
+  <div class="top-bar py-2">
+    <div class="container-fluid d-flex align-items-center justify-content-between px-4">
+      <!-- Logo -->
+      <div class="d-flex align-items-center gap-2">
+        <img src="pics/trophy2.jpg" alt="Logo"
+          style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
+        <span class="logo-text fw-bold fs-5">TOURNADAR</span>
+      </div>
+
+      <!-- Center Section Navigation Buttons -->
+      <div class="nav-links d-flex gap-2">
+        <a href="#services" class="btn nav-btn">Services</a>
+        <a href="#mission" class="btn nav-btn">Our Mission</a>
+        <a href="#team" class="btn nav-btn">Team</a>
+        <a href="#reach-us" class="btn nav-btn">Reach Us</a>
+      </div>
+
+      <!-- Login/Signup Buttons -->
+      <div class="nav-buttons d-flex gap-2">
+        <button class="btn nav-btn" data-bs-toggle="modal" data-bs-target="#divSignup">Sign Up</button>
+        <button class="btn nav-btn" data-bs-toggle="modal" data-bs-target="#divLogin">Login</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Welcome Section -->
+  <!-- Full-Width Welcome Section -->
+  <div class="w-100 py-5 px-3 text-white position-relative overflow-hidden" style="background-color: #F0FFFF;">
+    <!-- Optional: dark background -->
+
+    <!-- Left Circle Image -->
+    <div class="position-absolute top-50 start-0 translate-middle-y ms-3 d-none d-md-block">
+      <img src="pics/trophy2.jpg" alt="Left Graphic" class="rounded-circle shadow"
+        style="width: 120px; height: 120px; object-fit: cover;">
+    </div>
+
+    <!-- Right Circle Image -->
+    <div class="position-absolute top-50 end-0 translate-middle-y me-3 d-none d-md-block">
+      <img src="pics/trophy2.jpg" alt="Right Graphic" class="rounded-circle shadow"
+        style="width: 120px; height: 120px; object-fit: cover;">
+    </div>
+
+    <!-- Center Title -->
+    <div class="text-center mx-auto" style="max-width: 800px;">
+      <h1 class="display-4 fw-bold text-uppercase mb-3 text-warning">Welcome to <span
+          class="text-warning">Tournadar</span></h1>
+      <p class="fs-5 fst-italic" style="color: rgb(17, 17, 15);">— Your Gateway to Every Game.</p>
+    </div>
+  </div>
+
+
+  <!-- Image Slider -->
+  <div class="slider-container">
+    <div class="slide active" style="background-image: url('pics/sp.jpg');">
+      <div class="overlay-text">
+        <h5>Players of all levels are invited—just come with heart!</h5>
+        <p>Where every run, pass, and play turns passion into purpose.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('pics/ronaldo.jpg');">
+      <div class="overlay-text">
+        <h5>Train. Compete. Conquer.</h5>
+        <p>Tournadar empowers young talent to rise with discipline and grit.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('pics/basketball.jpg');">
+      <div class="overlay-text">
+        <h5>Champions are made off the field.</h5>
+        <p>Where consistency beats talent—every single day.</p>
+      </div>
+    </div>
+    <div class="slide" style="background-image: url('pics/king\ kohli.jpg');">
+      <div class="overlay-text">
+        <h5>One team. One dream.</h5>
+        <p>Every spike, block, and serve builds unity and pride.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <div id="services" class="services">
+    <h2>Our Services</h2>
+    <div class="container mt-5">
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-custom">
+            <img src="pics/register.jpg" alt="Contest">
+            <div class="card-body">
+              <h5 class="card-title">Register seamlessly</h5>
+              <p class="card-text">Organizers and players can register themselves without any problem and confusion.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-custom">
+            <img src="pics/tournament.jpg" alt="Organization">
+            <div class="card-body">
+              <h5 class="card-title">Find Tournaments</h5>
+              <p class="card-text">Players can find the tournaments of their proffesional sport within their nearest
+                cities.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-custom">
+            <img src="pics/tournament2.jpg" alt="Sportsmanship">
+            <div class="card-body">
+              <h5 class="card-title">Post Tournaments</h5>
+              <p class="card-text">Organizers can post any tournament any time and in any place and can manage their
+                tournaments.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card card-custom">
+            <img src="pics/ai.jpg" alt="Athlete Exposure">
+            <div class="card-body">
+              <h5 class="card-title">AI integeration</h5>
+              <p class="card-text">Players can upload their aadhar cards and the information will be shown by AI.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Our Mission Section -->
+  <div id="mission" class="container-fluid bg-dark text-white py-5 px-4" style="border-radius: 12px; margin-top: 30px;">
+
+    <div class="text-center mb-5">
+      <h2
+        style="border: 3px solid #ffffff; display: inline-block; padding: 5px 25px; background-color: #0d6efd; border-radius: 8px;">
+        Our Mission
+      </h2>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <img src="pics/allsports2.jpg" alt="Our Mission Image" class="img-fluid rounded shadow" />
+      </div>
+      <div class="col-md-6">
+        <p class="lead">
+          Our efforts are in line with the government’s vision of using sports as a means for youth empowerment,
+          national pride, and community involvement. By hosting inclusive programs and fostering the growth of athletes,
+          we support larger initiatives such as Khelo India, all while working to strengthen the country’s sporting
+          ecosystem.
+        </p>
+        <p class="lead">
+          When services are easily accessible and people feel heard, relationships grow stronger and goals are met more
+          efficiently. Our focus is on simplifying processes, removing obstacles, and building clear, smooth connections
+          between sports organizations and those they serve. With dependable systems, open communication, and strategic
+          coordination, we create an environment where both sides can grow and succeed together. In everything we do,
+          our goal stays the same: to make connecting easier, to build trust faster, and to help everyone move forward
+          with confidence.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Meet the Minds Section -->
+  <div id="team" class="container py-5">
+
+    <div class="text-center mb-5">
+      <h2
+        style="border: 3px solid #212529; display: inline-block; padding: 5px 25px; background-color: #0d6efd; color: white; border-radius: 8px;">
+        Meet the Developers
+      </h2>
+    </div>
+
+    <div class="row justify-content-center align-items-center mb-5">
+      <div class="col-md-3 text-center">
+        <img src="pics/rajeshsir.jpg" alt="Rajesh Bansal" class="img-fluid rounded-circle shadow"
+          style="width: 160px; height: 160px; object-fit: cover;" />
+      </div>
+      <div class="col-md-9">
+        <h5 class="text-muted">UNDER THE GUIDANCE OF</h5>
+        <h4><strong>Mr. Rajesh Bansal</strong></h4>
+        <p>
+          Founder – Bangalore Computer Education<br>
+          With <strong>25 years</strong> of experience in Training & Development, Mr. Bansal is the visionary founder of
+          <strong>RealJavaOnline.com</strong>.
+          Passionate about Java (J2SE, J2EE), C++, PHP, Python, AngularJS, Android, and MERN Stack.<br>
+          Dive deeper with his book <strong>"Real Java"</strong>.
+        </p>
+        <p>
+          <strong>Email:</strong> bcebti@gmail.com<br>
+          <strong>Contact:</strong> 98722-46056
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-3 text-center">
+        <img src="pics/Myself.jpg" alt="Prabhsimran Singh" class="img-fluid rounded-circle shadow"
+          style="width: 160px; height: 160px; object-fit: cover;" />
+      </div>
+      <div class="col-md-9">
+        <h5 class="text-muted">DEVELOPED BY</h5>
+        <h4><strong>Sanket Yadav</strong></h4>
+        <p>
+          A fearless visionary and determined boy, <strong>Sanket Yadav</strong> developed this project with mentor
+          <strong>Rajesh Bansal</strong> Sir to improve his skills.
+          he has a dream of getting a good package in a good company.
+        </p>
+        <p>
+          Currently pursuing Engineering at <strong>Chandigarh University</strong>,
+          he also has good academic records, having a good knowledge in C/C++ and Data Structures and Algorithms.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Reach Us Section -->
+  <div id="reach-us" class="container-fluid bg-dark text-white py-5">
+
+    <div class="text-center mb-5">
+      <h2
+        style="border: 3px solid #ffffff; display: inline-block; padding: 5px 25px; background-color: #0d6efd; border-radius: 8px;">
+        Reach Us
+      </h2>
+    </div>
+    <div class="row justify-content-center align-items-center px-3">
+      <!-- Google Map -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8807340362628!2d74.94975317541999!3d30.211951274839663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sus!4v1753911329595!5m2!1sen!2sus"
+          width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-6 text-center">
+        <div class="mb-3">
+          <a href="https://www.facebook.com/profile.php?id=100031727924089" target="_blank" class="me-3">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/facebook.svg" alt="Facebook" width="30" />
+          </a>
+          <a href="https://www.instagram.com/sanketyadav684/" target="_blank" class="me-3">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/instagram.svg" alt="Instagram" width="30" />
+          </a>
+          <a href="https://www.linkedin.com/in/sanket-yadav-3a985a287/" target="_blank">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/linkedin.svg" alt="LinkedIn" width="30" />
+          </a>
+        </div>
+        <p><strong>Website:</strong> <a href="https://www.realjavaonline.com" class="text-info"
+            target="_blank">https://www.realjavaonline.com</a></p>
+        <p><strong>Email ID:</strong> iamsanketyadav5@gmail.com</p>
+        <p><strong>Contact Us:</strong> +91 9317005672</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Slider Script -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 4000);
+  </script>
+
+  <!-- SIGNUP MODAL -->
+  <div class="modal fade" tabindex="-1" id="divSignup">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Signup Here</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form id="signupForm"> <!-- Form starts here -->
+          <div class="modal-body">
+
+            <div class="mb-3">
+              <label for="txtEmail" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="txtEmail" name="txtEmail">
+            </div>
+
+            <div class="mb-3">
+              <label for="txtPwd" class="form-label">Password</label>
+              <div class="input-group">
+                <input type="password" class="form-control border-end-0" id="txtPwd" name="txtPwd"
+                  placeholder="Enter password">
+                <span class="input-group-text bg-white border-start-0" onclick="togglePasswordSignup()"
+                  style="cursor: pointer;">
+                  <i class="bi bi-eye text-primary" id="signup-eye-icon"></i>
+                </span>
+              </div>
+              <small id="pwdStrengthMsg" class="form-text text-muted"></small>
+
+            </div>
+
+            <div class="mb-3">
+              <label for="txtUtype" class="form-label">User Type</label>
+              <select class="form-select" id="txtUtype" name="txtUtype">
+                <option value="">Select user type</option>
+                <option value="organizer">Organizer</option>
+                <option value="player">Player</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnSignupAjax">Signup</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal fade" tabindex="-1" id="divLogin">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Login Here</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="loginForm">
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="txtLoginEmail" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="txtLoginEmail" name="txtLoginEmail">
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="txtLoginPwd" class="form-label">Password</label>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control border-end-0" id="txtLoginPwd" placeholder="Enter password">
+                <span class="input-group-text bg-white border-start-0" onclick="togglePassword()"
+                  style="cursor: pointer;">
+                  <i class="bi bi-eye text-primary" id="eye-icon"></i>
+
+                </span>
+
+              </div>
+              <p class="text-end">
+                <a href="forgotpassword.html?showModal=true" id="forgotPasswordLink" class="text-decoration-none">Forgot Password?</a>
+              </p>
+
+            </div>
+
+            <!-- Get OTP Button -->
+            <button type="button" id="btnGetOTP" class="btn btn-warning mb-2">Get OTP</button>
+
+            <!-- OTP Input Section -->
+            <div id="otpSection" class="mb-2" style="display: none;">
+              <label for="txtOTP">Enter OTP</label>
+              <input type="text" id="txtOTP" class="form-control" placeholder="Enter the OTP">
+            </div>
+
+
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnLoginAjax">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+
+      function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function checkPasswordStrength(password) {
+        if (password.length < 6) return "weak";
+        if (password.match(/[A-Za-z]/) && password.match(/[0-9]/) && password.length >= 8 && password.match(/[^A-Za-z0-9]/))
+          return "strong";
+        if (password.match(/[A-Za-z]/) && password.match(/[0-9]/))
+          return "medium";
+        return "weak";
+      }
+      // Check password strength live as user types
+      $("#txtPwd").on("input", function () {
+        const password = $(this).val().trim();
+        const strength = checkPasswordStrength(password);
+
+        const strengthMsg = $("#pwdStrengthMsg");
+        if (password.length === 0) {
+          strengthMsg.text("");
+          return;
+        }
+
+        if (strength === "weak") {
+          strengthMsg.text("Weak password").css("color", "red");
+        } else if (strength === "medium") {
+          strengthMsg.text("Medium strength password").css("color", "orange");
+        } else if (strength === "strong") {
+          strengthMsg.text("Strong password").css("color", "green");
+        }
+      });
+
+
+      // SIGNUP
+      $("#btnSignupAjax").click(function () {
+        const email = $("#txtEmail").val().trim();
+        const pwd = $("#txtPwd").val().trim();
+        const utype = $("#txtUtype").val().trim();
+
+        if (!email || !pwd || !utype) {
+          alert("Please fill all fields.");
+          return;
+        }
+
+        if (!validateEmail(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        const strength = checkPasswordStrength(pwd);
+        if (strength === "weak") {
+          alert("Password is too weak. Include letters, numbers, and special characters with at least 8 characters.");
+          return;
+        }
+
+
+        $.ajax({
+          type: "POST",
+          url: "/signup-user",
+          data: {
+            txtEmail: email,
+            txtPwd: pwd,
+            txtUtype: utype
+          },
+          success: function (response) {
+            if (response === "already_registered") {
+              alert("This email is already registered.");
+            } else if (response === "registered_success") {
+              alert("Signup successful!");
+
+              // Send welcome email
+              fetch("http://localhost:2005/send-welcome", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email: email,
+                  name: email.split("@")[0] // You can replace with actual name if available
+                }),
+              });
+
+              $("#signupForm")[0].reset();
+              $("#divSignup").modal("hide");
+            } else {
+              alert(response); // For errors
+            }
+          },
+
+
+          error: function (err) {
+            alert("Error: " + err.responseText);
+          }
+        });
+      });
+
+      // LOGIN
+      $("#btnGetOTP").click(function () {
+        const email = $("#txtLoginEmail").val().trim();
+        const pwd = $("#txtLoginPwd").val().trim();
+
+        if (!email || !pwd) {
+          alert("Please fill all fields.");
+          return;
+        }
+
+        if (!validateEmail(email)) {
+          alert("Invalid email format.");
+          return;
+        }
+
+        $.ajax({
+          type: "POST",
+          url: "/login-user",
+          data: {
+            txtLoginEmail: email,
+            txtLoginPwd: pwd
+          },
+          success: function (response) {
+            if (response === "Blocked") {
+              alert("Sorry!! Your ID is Blocked");
+            } else if (response === "Invalid") {
+              alert("Invalid email or password");
+            } else {
+              // Email/password are correct, now send OTP
+              fetch("http://localhost:2005/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email })
+              })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.otp) {
+                    localStorage.setItem("emailOTP", data.otp);
+                    localStorage.setItem("userRole", response); // store role temporarily
+                    localStorage.setItem("activeUser", email);
+
+                    // Show OTP input & verify button
+                    $("#otpSection").show();
+                    $("#btnVerifyOTP").show();
+
+                    alert("OTP sent to your email. Please enter it to proceed.");
+                  } else {
+                    alert("Failed to send OTP.");
+                  }
+                })
+                .catch(err => {
+                  alert("Error sending OTP: " + err.message);
+                });
+            }
+          },
+
+          error: function (err) {
+            alert("Error: " + err.responseText);
+          }
+        });
+      });
+      $("#btnLoginAjax").click(function () {
+        const enteredOtp = $("#txtOTP").val().trim();
+        const actualOtp = localStorage.getItem("emailOTP");
+        console.log("Stored OTP:", actualOtp);
+        console.log("Entered OTP:", enteredOtp);
+
+        if (!enteredOtp) {
+          alert("Please enter the OTP.");
+          return;
+        }
+
+        if (enteredOtp !== actualOtp) {
+          alert("Invalid OTP. Please try again.");
+          return;
+        }
+
+        // Proceed with login only if OTP is valid
+        const email = $("#txtLoginEmail").val().trim();
+        const password = $("#txtLoginPwd").val().trim();
+
+        $.ajax({
+          url: "/login-user",
+          method: "POST",
+          data: {
+            txtLoginEmail: email,
+            txtLoginPwd: password
+          },
+          success: function (response) {
+            if (response == "Blocked") {
+              alert("Sorry!! Your ID is Blocked");
+            } else if (response == "Invalid") {
+              alert("Invalid email or password");
+            } else {
+              localStorage.setItem("activeUser", email);
+              localStorage.setItem("userRole", response);
+              if (response == "player")
+                location.href = "dashplayer.html";
+              else if (response == "organizer")
+                location.href = "dashorganizer.html";
+              else if (response == "admin")
+                location.href = "dashadmin.html";
+            }
+          },
+          error: function () {
+            alert("Login failed. Please try again.");
+          }
+        });
+      });
+
+
+    });
+
+  </script>
+
+
+
+</body>
+
+</html>

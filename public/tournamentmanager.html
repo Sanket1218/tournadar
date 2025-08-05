@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tournament Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+  <script>
+    var mymodule = angular.module("tournamentModule", []);
+
+    mymodule.controller("tournamentController", function ($scope, $http) {
+      $scope.tournamentsArray = [];
+
+      // Fetch tournaments by email id only
+      $scope.fetchByEmail = function () {
+        //if (!$scope.emailToSearch) {
+        //  alert("Please enter an Email ID first.");
+         // return;
+        //}
+
+        var url = "/fetch-tournaments-by-email?emailidKuch=" + localStorage.getItem("activeUser");
+        $http.get(url).then(successFx, errorFx);
+
+        function successFx(response) {
+          $scope.tournamentsArray = response.data;
+        }
+        function errorFx(response) {
+          alert("Error: " + JSON.stringify(response.data));
+        }
+      };
+
+      // Delete a tournament by ID
+      $scope.deleteTournament = function (id) {
+         if (!confirm("Are you sure you want to delete this tournament?")) {
+           return;
+           }
+
+        var url = "/delete-tournament?idKuch=" + id;
+        $http.get(url).then(successFx, errorFx);
+
+        function successFx(response) {
+          alert(response.data);
+          $scope.fetchByEmail(); // refresh list after deletion
+        }
+        function errorFx(response) {
+          alert("Error: " + JSON.stringify(response.data));
+        }
+      };
+    });
+  </script>
+</head>
+<body ng-app="tournamentModule" ng-controller="tournamentController" ng-init="fetchByEmail();">
+
+<div class="container my-4">
+  <h2 class="text-center mb-4">Tournament Manager</h2>
+  <!---
+    <div class="input-group mb-4" style="max-width: 400px; margin:auto;">
+    <input type="text" class="form-control" placeholder="Enter Email ID" ng-model="emailToSearch">
+    <button class="btn btn-primary" ng-click="fetchByEmail()">Fetch Tournaments</button>
+  </div>
+-->
+
+  <div class="table-responsive" ng-if="tournamentsArray.length > 0">
+    <table class="table table-bordered table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Sr.No</th>
+          <th>Email ID</th>
+          <th>Title</th>
+          <th>Event Date</th>
+          <th>Event Time</th>
+          <th>City</th>
+          <th>Address</th>
+          <th>Category</th>
+          <th>Min Age</th>
+          <th>Max Age</th>
+          <th>Last Date</th>
+          <th>Fee</th>
+          <th>Prize Money</th>
+          <th>Contact Person</th>
+          <th>Post Date</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="obj in tournamentsArray">
+          <td>{{$index+1}}</td>
+          <td>{{obj.emailid}}</td>
+          <td>{{obj.title}}</td>
+          <td>{{obj.eventDate}}</td>
+          <td>{{obj.eventTime}}</td>
+          <td>{{obj.city}}</td>
+          <td>{{obj.address}}</td>
+          <td>{{obj.category}}</td>
+          <td>{{obj.minAge}}</td>
+          <td>{{obj.maxAge}}</td>
+          <td>{{obj.lastDate}}</td>
+          <td>{{obj.fee}}</td>
+          <td>{{obj.prizeMoney}}</td>
+          <td>{{obj.contactPerson}}</td>
+          <td>{{obj.postDate}}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" ng-click="deleteTournament(obj.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-warning text-center mt-4" ng-if="tournamentsArray.length == 0">
+    No records to display. Enter Email ID and click Fetch.
+  </div>
+
+</div>
+
+</body>
+</html>

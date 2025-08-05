@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organizer Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body onload="showUser();" class="bg-light">
+
+
+<div class="row w-100">
+  <div class="col-md-12 bg-primary text-white text-center py-3">
+    <h4 class="m-0">www.tournadar.com</h4>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 bg-danger text-white text-center py-2 mb-4">
+      <h2>Organizer Details</h2>
+    </div>
+  </div>
+
+  
+ 
+  <div class="col-md-8 offset-md-2">
+    <form  action="/submit-org-details" id="orgDetailsForm" enctype="multipart/form-data" class="row g-3" method="post">
+
+    <div class="col-12">
+  <div class="row g-2 align-items-end"> <!-- align-items-end for vertical alignment -->
+
+    <div class="col-md-8">
+      <label class="form-label">Email ID</label>
+      <input type="email" class="form-control" id="txtEmail" name="txtEmail"  >
+      <span id="errEmail"></span> 
+    </div>
+
+    <div class="col-md-4 d-grid"> <!-- d-grid makes button full height of column -->
+      <label class="form-label d-none d-md-block">&nbsp;</label> <!-- dummy label for spacing -->
+      <button type="button" class="btn btn-success" id="btnSearch">Search</button>
+    </div>
+
+  </div>
+</div>
+
+
+      <div class="col-md-4">
+        <label class="form-label">Organization Name</label>
+        <input type="text" class="form-control" name="orgName">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Registration Number</label>
+        <input type="text" class="form-control" name="regNumber">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">City</label>
+        <input type="text" class="form-control" name="city">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Contact Number</label>
+        <input type="text" class="form-control" name="contact">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Head of Organization</label>
+        <input type="text" class="form-control" name="head">
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Address</label>
+        <textarea class="form-control" name="address"></textarea>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Sports</label>
+        <input type="text" class="form-control" name="sports">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Website</label>
+        <input type="url" class="form-control" name="website">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Instagram Link</label>
+        <input type="url" class="form-control" name="insta">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Registration Certificate Pic</label>
+        <input type="file" class="form-control" name="profilePic" id="profilePic" onchange="showPrev(profilePic, prev)">
+      </div>
+       <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <img src="pics/customer.jpg" width="100" height="100" id="prev" alt="">
+         <input type="hidden" name="hdn" id="hdnPicurl">
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Other Information</label>
+        <textarea class="form-control" name="otherInfo"></textarea>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Send to Server</button>
+         <button type="submit" formaction="/update-org-details" class="btn btn-primary">Modify</button>
+      
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<nav class="navbar bg-primary mt-5 w-100 py-3">
+  <div class="container-fluid justify-content-center">
+    <h4 class="text-white m-0">www.tournadar.com</h4>
+</nav>
+
+
+<script>
+  function showPrev(fileInput, imgElem) {
+    if (fileInput.files && fileInput.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        imgElem.src = e.target.result;
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  }
+
+  // Search data by email
+ $(document).ready(function(){
+  $("#btnSearch").click(function(){
+    let obj = {
+      type: "get",
+      url: "/get-org-one",
+      data: {
+        txtEmail: $("#txtEmail").val()
+      }
+    };
+
+    $.ajax(obj).then(
+      function(responseJsonAry){
+        if(responseJsonAry.length > 0) {
+          let org = responseJsonAry[0];
+
+          // fill data into form inputs
+          $("[name='orgName']").val(org.orgName);
+          $("[name='regNumber']").val(org.regNumber);
+          $("[name='address']").val(org.address);
+          $("[name='city']").val(org.city);
+          $("[name='sports']").val(org.sports);
+          $("[name='website']").val(org.website);
+          $("[name='insta']").val(org.insta);
+          $("[name='head']").val(org.head);
+          $("[name='contact']").val(org.contact);
+          $("[name='otherInfo']").val(org.otherInfo);
+          $("#prev").attr("src", org.picurl);
+          $("#hdnPicurl").val(org.picurl); // set hidden picurl value
+        } else {
+          alert("No record found");
+        }
+      },
+      function(err){
+        alert(err.message);
+      }
+    );
+  });
+
+$("#txtEmail").blur(function(){
+    let obj = {
+        type: "get",
+        url: "/chk-email",
+        data: {
+            txtEmail: $("#txtEmail").val()
+        }
+    }
+    $.ajax(obj).then(function(response){
+        // This displays the server response inside <span id="errEmail">
+        $("#errEmail").html(response)
+    }).fail(function(err){
+        alert(err);
+    })
+})
+ });
+
+
+</script>`
+  <script>
+    function showUser()
+    {
+      let activeUser=localStorage.getItem("activeUser");
+      document.getElementById("txtEmail").value=activeUser;
+    }
+  </script>
+
+</body>
+</html>

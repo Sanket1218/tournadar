@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organizer Dashboard</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #F0FFFF;
+    }
+    .dashboard-container {
+      margin-top: 50px;
+    }
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
+    .navbar-brand img {
+      height: 40px;
+    }
+  </style>
+  
+
+</head>
+<body>
+  <script>
+    function showUser()
+    {
+      let activeUser=localStorage.getItem("activeUser");
+      document.getElementById("welcome").innerHTML=activeUser;
+    }
+    function logout() {
+  localStorage.removeItem("activeUser");
+  window.location.href = "index.html"; // Change to your login page path
+}
+
+  </script>
+  <body onload="showUser();">
+
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Left side: logo -->
+    <a class="navbar-brand" href="#">
+      <img src="pics/trophy2.jpg" alt="Logo" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+    </a>
+
+    <!-- Right side: welcome + logout -->
+    <div class="d-flex align-items-center ms-auto">
+      <!-- Welcome text -->
+      <span class="text-white me-4">
+        Welcome: <span id="welcome">*</span>
+      </span>
+
+      <!-- Logout button -->
+      <button class="btn btn-primary" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+
+
+<!-- Dashboard Cards -->
+<div class="container dashboard-container">
+  <h2 class="text-center mb-4">Organizer Dashboard</h2>
+  <div class="row g-4">
+
+    <!-- Organization Details Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/types-of-organizations1.webp" class="card-img-top" alt="Organization Details">
+        <div class="card-body text-center">
+          <h5 class="card-title">Organization Details</h5>
+          <a href="organizationdetails.html" class="btn btn-danger">Go to Details</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post Tournaments Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/most-popular-sport-illustration-free-vector.jpg" class="card-img-top" alt="Post Tournaments">
+        <div class="card-body text-center">
+          <h5 class="card-title">Post Tournaments</h5>
+          <a href="post-tournaments.html" class="btn btn-success">Post Tournament</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage Tournaments Card -->
+    <div class="col-md-4">
+      <div class="card shadow">
+        <img src="pics/square-logo.df43757029e130ec.png" class="card-img-top" alt="Manage Tournaments">
+        <div class="card-body text-center">
+          <h5 class="card-title">Manage Tournaments</h5>
+          <a href="tournamentmanager.html" class="btn btn-primary">Manage</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
