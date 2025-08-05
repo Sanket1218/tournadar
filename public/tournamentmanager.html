@@ -87,18 +87,18 @@
           <td>{{$index+1}}</td>
           <td>{{obj.emailid}}</td>
           <td>{{obj.title}}</td>
-          <td>{{obj.eventDate}}</td>
+         <td>{{obj.eventDate | date:'yyyy-MM-dd'}}</td>
           <td>{{obj.eventTime}}</td>
           <td>{{obj.city}}</td>
           <td>{{obj.address}}</td>
           <td>{{obj.category}}</td>
           <td>{{obj.minAge}}</td>
           <td>{{obj.maxAge}}</td>
-          <td>{{obj.lastDate}}</td>
+          <td>{{obj.lastDate | date:'yyyy-MM-dd'}}</td>
           <td>{{obj.fee}}</td>
           <td>{{obj.prizeMoney}}</td>
           <td>{{obj.contactPerson}}</td>
-          <td>{{obj.postDate}}</td>
+          <td>{{obj.postDate | date:'yyyy-MM-dd'}}</td>
           <td>
             <button class="btn btn-danger btn-sm" ng-click="deleteTournament(obj.id)">Delete</button>
           </td>
