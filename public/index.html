@@ -273,26 +273,29 @@
   <!-- Top Bar with Centered Nav and Right Aligned Buttons -->
   <!-- FULL-WIDTH TOP BAR WITH STYLED BUTTONS -->
   <div class="top-bar py-2">
-    <div class="container-fluid d-flex align-items-center justify-content-between px-4">
-      <!-- Logo -->
-      <div class="d-flex align-items-center gap-2">
-        <img src="pics/trophy2.jpg" alt="Logo"
-          style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
-        <span class="logo-text fw-bold fs-5">TOURNADAR</span>
-      </div>
+    <div class="container-fluid px-4">
+      <div class="row align-items-center text-center text-lg-start">
+        <!-- Logo -->
+        <div
+          class="col-12 col-lg-4 mb-2 mb-lg-0 d-flex justify-content-center justify-content-lg-start align-items-center gap-2">
+          <img src="pics/trophy2.jpg" alt="Logo"
+            style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
+          <span class="logo-text fw-bold fs-5">TOURNADAR</span>
+        </div>
 
-      <!-- Center Section Navigation Buttons -->
-      <div class="nav-links d-flex gap-2">
-        <a href="#services" class="btn nav-btn">Services</a>
-        <a href="#mission" class="btn nav-btn">Our Mission</a>
-        <a href="#team" class="btn nav-btn">Team</a>
-        <a href="#reach-us" class="btn nav-btn">Reach Us</a>
-      </div>
+        <!-- Navigation Links -->
+        <div class="col-12 col-lg-4 mb-2 mb-lg-0 d-flex justify-content-center gap-2 flex-wrap">
+          <a href="#services" class="btn nav-btn btn-sm">Services</a>
+          <a href="#mission" class="btn nav-btn btn-sm">Our Mission</a>
+          <a href="#team" class="btn nav-btn btn-sm">Team</a>
+          <a href="#reach-us" class="btn nav-btn btn-sm">Reach Us</a>
+        </div>
 
-      <!-- Login/Signup Buttons -->
-      <div class="nav-buttons d-flex gap-2">
-        <button class="btn nav-btn" data-bs-toggle="modal" data-bs-target="#divSignup">Sign Up</button>
-        <button class="btn nav-btn" data-bs-toggle="modal" data-bs-target="#divLogin">Login</button>
+        <!-- Login/Signup Buttons -->
+        <div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end gap-2 flex-wrap">
+          <button class="btn nav-btn btn-sm" data-bs-toggle="modal" data-bs-target="#divSignup">Sign Up</button>
+          <button class="btn nav-btn btn-sm" data-bs-toggle="modal" data-bs-target="#divLogin">Login</button>
+        </div>
       </div>
     </div>
   </div>
@@ -494,11 +497,13 @@
     <div class="row justify-content-center align-items-center px-3">
       <!-- Google Map -->
       <div class="col-md-6 mb-4 mb-md-0">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8807340362628!2d74.94975317541999!3d30.211951274839663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sus!4v1753911329595!5m2!1sen!2sus"
-          width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="ratio ratio-4x3">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8807340362628!2d74.94975317541999!3d30.211951274839663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sus!4v1753911329595!5m2!1sen!2sus"
+            style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
       </div>
+
 
       <!-- Contact Info -->
       <div class="col-md-6 text-center">
@@ -617,7 +622,8 @@
 
               </div>
               <p class="text-end">
-                <a href="forgotpassword.html?showModal=true" id="forgotPasswordLink" class="text-decoration-none">Forgot Password?</a>
+                <a href="forgotpassword.html?showModal=true" id="forgotPasswordLink" class="text-decoration-none">Forgot
+                  Password?</a>
               </p>
 
             </div>
