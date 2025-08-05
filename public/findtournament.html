@@ -73,7 +73,7 @@
     <div class="row g-4" ng-if="tournamentList.length > 0">
       <div class="col-md-4" ng-repeat="t in tournamentList">
         <div class="card shadow">
-          <img ng-src="{{t.banner || 'pics/Games.jpg'}}" class="card-img-top" alt="Tournament Image">
+          <img ng-src="{{t.banner || 'pics/sports_tools_'}}" class="card-img-top" alt="Tournament Image">
           <div class="card-body text-center">
             <h5 class="card-title">{{t.name}}</h5>
             <p><strong>City:</strong> {{t.city}}</p>
@@ -103,7 +103,7 @@
         </div>
         <div class="modal-body" ng-if="selectedTournament">
           <div class="banner-wrapper mb-3 rounded overflow-hidden">
-            <img ng-src="{{selectedTournament.banner || 'pics/Games.jpg'}}"
+            <img ng-src="{{selectedTournament.banner || 'pics/sports_tools_.jpg'}}"
               class="img-fluid w-100 h-100 object-fit-cover" alt="Tournament Banner">
           </div>
 
