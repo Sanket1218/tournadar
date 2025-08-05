@@ -724,7 +724,7 @@
               alert("Signup successful!");
 
               // Send welcome email
-              fetch("http://localhost:2005/send-welcome", {
+              fetch("https://tournadar.onrender.com/send-welcome", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -776,7 +776,7 @@
               alert("Invalid email or password");
             } else {
               // Email/password are correct, now send OTP
-              fetch("http://localhost:2005/send-otp", {
+              fetch("https://tournadar.onrender.com/send-otp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: email })
