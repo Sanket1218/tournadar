@@ -76,7 +76,10 @@ app.post("/send-otp", (req, res) => {
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error("OTP email failed:", err);
-      res.status(500).send("OTP email failed");
+       res.status(500).json({
+       success: false,
+        message: "OTP email failed"
+  });
     } else {
       console.log("OTP email sent:", info.response);
       res.json({ message: "OTP sent!", otp });
@@ -99,10 +102,16 @@ app.post("/send-otp2", (req, res) => {
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       console.error("OTP email failed:", err);
-      res.status(500).send("OTP email failed");
+    res.status(500).json({
+  success: false,
+  message: "OTP email failed"
+});
     } else {
       console.log("OTP email sent:", info.response);
-      res.json({ message: "OTP sent!", otp });
+      res.json({
+  success: true,
+  message: "OTP sent!"
+});
     }
   });
 });
