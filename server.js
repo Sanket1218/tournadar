@@ -54,7 +54,7 @@ app.post("/send-welcome", (req, res) => {
   const { email, name } = req.body;
 
   const mailOptions = {
-    from: `"Tournadar" <${process.env.EMAIL_USER}>`,
+    from: `"Tournadar" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Welcome to Tournadar!",
     html: `<h3>Hello ${name || "Player"},</h3>
@@ -77,7 +77,7 @@ app.post("/send-otp", (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
 
   const mailOptions = {
-    from: `"Tournadar" <${process.env.EMAIL_USER}>`,
+    from: `"Tournadar" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Your OTP for Login",
     html: `<p>Your One-Time Password (OTP) is:</p><h2>${otp}</h2><p>This is valid for 5 minutes.</p>`,
@@ -106,7 +106,7 @@ app.post("/send-otp2", (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
 
   const mailOptions = {
-    from: `"Tournadar" <${process.env.EMAIL_USER}>`,
+    from: `"Tournadar" <${process.env.SMTP_USER}>`,
     to: email,
     subject: "Your OTP for Changing password",
     html: `<p>Your One-Time Password (OTP) is:</p><h2>${otp}</h2><p>This is valid for 5 minutes.</p>`,
