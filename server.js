@@ -34,7 +34,7 @@ app.listen(PORT, function () {
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
-  port: 587,
+  port: 2525,
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
@@ -71,64 +71,6 @@ app.post("/send-welcome", (req, res) => {
     }
   });
 });
-// --- Route: Send OTP on Login ---
-app.post("/send-otp", (req, res) => {
-  const { email } = req.body;
-  const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-
-  const mailOptions = {
-    from: `"Tournadar" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: "Your OTP for Login",
-    html: `<p>Your One-Time Password (OTP) is:</p><h2>${otp}</h2><p>This is valid for 5 minutes.</p>`,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error("OTP email failed:", err);
-       res.status(500).json({
-       success: false,
-        message: "err.message "
-  });
-    } else {
-      console.log("OTP email sent:", info.response);
-      res.json({
-  success: true,
-  message: "OTP sent!"
-});
-    }
-  });
-});
-
-//for forgot password
-app.post("/send-otp2", (req, res) => {
-  const { email } = req.body;
-  const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-
-  const mailOptions = {
-    from: `"Tournadar" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: "Your OTP for Changing password",
-    html: `<p>Your One-Time Password (OTP) is:</p><h2>${otp}</h2><p>This is valid for 5 minutes.</p>`,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error("OTP email failed:", err);
-    res.status(500).json({
-  success: false,
-  message: "err.message "
-});
-    } else {
-      console.log("OTP email sent:", info.response);
-      res.json({
-  success: true,
-  message: "OTP sent!"
-});
-    }
-  });
-});
-
 
 
 // GET: index page
