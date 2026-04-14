@@ -33,23 +33,22 @@ app.listen(PORT, function () {
 });
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // MUST be true
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
 
-transporter.verify(function (error, success) {
+transporter.verify((error, success) => {
   if (error) {
     console.log("Transporter error:", error);
   } else {
-    console.log("Server is ready to send emails");
+    console.log("Brevo SMTP is ready ✅");
   }
 });
-
 // --- Route: Send Welcome Email on Signup ---
 app.post("/send-welcome", (req, res) => {
   const { email, name } = req.body;
