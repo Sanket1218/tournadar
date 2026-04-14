@@ -27,16 +27,27 @@ app.use(fileuploader());
 app.use(express.static("public"));
 
 // Start server
-app.listen(2005, function () {
+const PORT = process.env.PORT || 2005;
+app.listen(PORT, function () {
   console.log("Server Started at Port no: 2005");
 });
 // Email Transporter Setup
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // MUST be true
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+});
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log("Transporter error:", error);
+  } else {
+    console.log("Server is ready to send emails");
+  }
 });
 
 // --- Route: Send Welcome Email on Signup ---
@@ -78,11 +89,14 @@ app.post("/send-otp", (req, res) => {
       console.error("OTP email failed:", err);
        res.status(500).json({
        success: false,
-        message: "OTP email failed"
+        message: "err.message "
   });
     } else {
       console.log("OTP email sent:", info.response);
-      res.json({ message: "OTP sent!", otp });
+      res.json({
+  success: true,
+  message: "OTP sent!"
+});
     }
   });
 });
@@ -104,7 +118,7 @@ app.post("/send-otp2", (req, res) => {
       console.error("OTP email failed:", err);
     res.status(500).json({
   success: false,
-  message: "OTP email failed"
+  message: "err.message "
 });
     } else {
       console.log("OTP email sent:", info.response);
